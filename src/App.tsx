@@ -1,24 +1,45 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const [value, setValue] = useState(0)
+
+  const incHandler = () => {
+    setValue(value + 1)
+  }
+
+  const setToLocalStorageHandler = () => {
+    localStorage.setItem('counterValue', JSON.stringify(value))
+    localStorage.setItem('counterValue + 1', JSON.stringify(value + 1))
+  }
+
+  const getFromLocalHandler = () => {
+    let valueAsString = localStorage.getItem('counterValue')
+    if (valueAsString) {
+      let newValue = JSON.parse(valueAsString)
+      setValue(newValue)
+    }
+  }
+
+  const clearLocalStorageHandler = () => {
+    localStorage.clear()
+    setValue(0)
+  }
+
+  const removeItemFromLocalStorageHandler = () => {
+    localStorage.removeItem('counterValue + 1')
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{value}</h1>
+      <button onClick={incHandler}>inc</button>
+      <button onClick={setToLocalStorageHandler}>setToLocalStorage</button>
+      <button onClick={getFromLocalHandler}>getFromLocalStorage</button>
+      <button onClick={clearLocalStorageHandler}>clearLocalStorage</button>
+      <button onClick={removeItemFromLocalStorageHandler}>removeItemFromLocalStorage</button>
     </div>
   );
 }
